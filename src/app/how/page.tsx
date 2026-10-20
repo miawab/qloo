@@ -57,7 +57,7 @@ export default function HowPage() {
       </section>
 
       <section className="mt-20 grid gap-10 lg:grid-cols-2">
-        <div>
+        <div className="min-w-0">
           <h2 className="font-display text-4xl">One real request</h2>
           <p className="mt-4 text-lg leading-relaxed text-muted">
             The scoring step from the example run. The options are the producer&apos;s eight films; the signals are the six musical-fan

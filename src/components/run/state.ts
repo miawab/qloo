@@ -117,7 +117,8 @@ export function useRun(opts: { brief?: string; replayId?: string; speed?: number
           window.history.replaceState(null, "", `/run?id=${id}`);
         }
         if (!res.ok || !res.body) {
-          return send({ kind: "event", e: { type: "error", message: "The run could not start." } });
+          const body = await res.json().catch(() => ({}));
+          return send({ kind: "event", e: { type: "error", message: body.error ?? "The run could not start." } });
         }
         const reader = res.body.getReader();
         const dec = new TextDecoder();

@@ -10,6 +10,11 @@ const mono = JetBrains_Mono({ variable: "--font-jbmono", subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Overture",
   description: "Which film should be your next stage musical? An agent that scores film adaptations by audience fit, with the evidence behind every call.",
+  openGraph: {
+    title: "Overture: greenlight the right musical",
+    description: "An agent that scores which films musical-theatre fans already love, tested on 58 past Broadway adaptations.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

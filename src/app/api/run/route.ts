@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { runAgent, type AgentEvent } from "@/lib/agent";
+import { allowRun } from "@/lib/limit";
 import { saveRun } from "@/lib/runs";
 
 export const runtime = "nodejs";
@@ -9,6 +10,11 @@ export const maxDuration = 300;
 export async function POST(req: Request) {
   const { brief } = (await req.json()) as { brief?: string };
   if (!brief || brief.length > 2000) return Response.json({ error: "Give a brief of up to 2000 characters." }, { status: 400 });
+
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  if (!allowRun(ip)) {
+    return Response.json({ error: "That's a lot of runs. Open a saved run, or try again in a few minutes." }, { status: 429 });
+  }
 
   const id = randomUUID().slice(0, 8);
   const started = Date.now();
