@@ -1,0 +1,10 @@
+{
+  "note": "Same 58 shows, different fan panels. Run 2026-10-20 against the same Qloo affinity data.",
+  "panels": [
+    { "label": "Main panel", "films": "The Greatest Showman, Les Misérables, Mamma Mia!, La La Land, Chicago, Into the Woods", "rho": 0.42 },
+    { "label": "Second panel", "films": "Wicked, The Phantom of the Opera, The Sound of Music, West Side Story (2021), Dreamgirls, Hamilton", "rho": 0.31 },
+    { "label": "Third panel", "films": "Rent, Grease, Cats (2019), Annie (1982), Hairspray (2007), Sweeney Todd", "rho": 0.36 },
+    { "label": "Control: action fans", "films": "Fast & Furious, John Wick, Die Hard", "rho": -0.07 }
+  ],
+  "excluded": ["Hairspray", "The Producers", "Mean Girls", "The Color Purple", "Sunset Boulevard", "Mary Poppins", "Spamalot", "Moulin Rouge!"]
+}

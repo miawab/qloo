@@ -1,53 +1,56 @@
 "use client";
+import { Frame } from "./Panels";
 import type { ScoreRow } from "./state";
 
-const BAND_COLOR: Record<string, string> = { strong: "bg-strong", middle: "bg-middle", weak: "bg-weak" };
 const BAND_TEXT: Record<string, string> = { strong: "text-strong", middle: "text-middle", weak: "text-weak" };
+const BAND_BG: Record<string, string> = { strong: "bg-strong", middle: "bg-middle", weak: "bg-weak" };
 
+// Ranked like a show poster: the better the fit, the bigger the billing.
 export function Scoreboard({ rows, pickId }: { rows: ScoreRow[]; pickId?: string }) {
-  const max = Math.max(...rows.map((r) => r.affinity));
-  const min = Math.min(0.7, ...rows.map((r) => r.affinity));
   return (
-    <section className="rounded-2xl border border-line bg-panel p-6">
-      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="font-display text-3xl">Audience fit</h2>
-        <p className="text-sm text-muted">How much musical-theatre fans love each film, placed against 58 past Broadway adaptations</p>
-      </div>
-      <ol className="space-y-4">
-        {rows.map((r, i) => (
-          <li key={r.film.id} className={`rounded-xl p-4 ${r.film.id === pickId ? "bg-panel-2 ring-1 ring-accent/60" : ""}`}>
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <div className="flex items-baseline gap-3">
-                <span className="w-6 text-right font-display text-xl text-muted">{i + 1}</span>
-                <span className="font-display text-2xl">{r.film.name}</span>
-                {r.film.year && <span className="text-sm text-muted">{r.film.year}</span>}
+    <Frame
+      id="shortlist"
+      index="01"
+      title="The shortlist"
+      note="How much musical-theatre fans love each film, placed against 58 past Broadway adaptations of films."
+    >
+      <ol>
+        {rows.map((r, i) => {
+          const size = Math.max(1.4, 3.4 - i * 0.28);
+          return (
+            <li key={r.film.id} className="group grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-line py-4 sm:grid-cols-[2.5rem_1fr_15rem]">
+              <span className="pt-1 font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <div className="flex flex-wrap items-baseline gap-x-3">
+                  <span className="font-display" style={{ fontSize: `${size}rem` }}>
+                    {r.film.name}
+                  </span>
+                  {r.film.year && <span className="font-mono text-xs text-muted">{r.film.year}</span>}
+                  {r.film.id === pickId && <span className="tag">Pick</span>}
+                </div>
+                <p className="mt-2 text-xs text-muted">
+                  Closest past cases: {r.comparables.map((c) => `${c.show} (${c.performances})`).join(", ")}
+                </p>
+                {r.alreadyOnStage.length > 0 && (
+                  <p className="mt-1 text-xs text-middle">
+                    Qloo links this film to {r.alreadyOnStage.join(", ").toLowerCase()}: a stage version may exist and can lift the score.
+                  </p>
+                )}
               </div>
-              <div className="text-right">
-                <span className={`text-sm font-semibold uppercase tracking-wide ${BAND_TEXT[r.band.key]}`}>{r.band.label}</span>
-                <span className="ml-3 text-sm text-muted">beats {r.percentile}% of past adaptations</span>
+              <div className="col-start-2 mt-3 sm:col-start-3 sm:mt-0 sm:text-right">
+                <p className={`font-mono text-xs uppercase ${BAND_TEXT[r.band.key]}`}>{r.band.label}</p>
+                <p className="mt-1 text-2xl font-semibold tabular-nums">beats {r.percentile}%</p>
+                <div className="mt-2 h-1 bg-line">
+                  <div className={`h-full ${BAND_BG[r.band.key]}`} style={{ width: `${Math.max(3, r.percentile)}%` }} />
+                </div>
+                <p className="mt-2 font-mono text-[11px] text-muted">
+                  band median {r.band.medianRun} perfs, {Math.round(r.band.longRunShare * 100)}% ran 500+
+                </p>
               </div>
-            </div>
-            <div className="ml-9 mt-3 h-3 overflow-hidden rounded-full bg-line">
-              <div
-                className={`h-full rounded-full ${BAND_COLOR[r.band.key]} transition-all duration-700`}
-                style={{ width: `${Math.max(4, ((r.affinity - min) / (max - min || 1)) * 100)}%` }}
-              />
-            </div>
-            <div className="ml-9 mt-2 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted">
-              <span>Qloo affinity {r.affinity.toFixed(3)}</span>
-              <span>
-                Shows in this band ran a median {r.band.medianRun} performances; {Math.round(r.band.longRunShare * 100)}% passed 500
-              </span>
-              <span>Closest past cases: {r.comparables.map((c) => `${c.show} (${c.performances})`).join(", ")}</span>
-            </div>
-            {r.alreadyOnStage.length > 0 && (
-              <p className="ml-9 mt-2 text-sm text-accent">
-                Qloo already links this film to {r.alreadyOnStage.join(", ").toLowerCase()}. A stage version may exist, and its fans can lift the score.
-              </p>
-            )}
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ol>
-    </section>
+    </Frame>
   );
 }

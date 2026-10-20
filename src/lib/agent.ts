@@ -124,7 +124,14 @@ How to read the score: it is Qloo's affinity of the film among fans of ${PANEL.m
 In a back-test on ${STATS.n} Broadway musicals adapted from films (1985 to 2023), this score correlated with the original run length (Spearman ${STATS.rho.toFixed(2)}; fame alone ${STATS.fameRho.toFixed(2)}).
 Bands: ${BANDS.map((b) => `${b.label}: median run ${b.medianRun} performances, ${Math.round(b.longRunShare * 100)}% ran 500+`).join("; ")}.
 The score is evidence about audience fit, not a forecast of one show's result: book, score, cast, budget and timing matter too. Say so in the risks.
-Qloo describes groups of people, never individuals. Keep the memo plain and short.`;
+If a scored film has alreadyOnStage tags, a stage version probably exists: its score may be inflated and the rights may be taken. Say so, and prefer a film without that flag when scores are close.
+Qloo describes groups of people, never individuals.
+
+Memo style: write for a busy investor. Plain words, short sentences.
+- Each field is one or two sentences. Three to four reasons, four risks at most, three next steps.
+- Use few numbers and round them: "beats 97% of past adaptations", "median run 565 performances". Never list raw affinity decimals.
+- Name at most three people, brands or places per field.
+- Evidence is written for a reader, not a developer: say "Qloo's audience-fit score" or "Qloo's touring heatmap", never tool or field names like score_films or alreadyOnStage.`;
 
 type Emit = (e: AgentEvent) => void;
 

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Inter_Tight } from "next/font/google";
+import { Archivo, Inter, JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const tight = Inter_Tight({ variable: "--font-tight", subsets: ["latin"], weight: ["500", "600", "700"] });
+const archivo = Archivo({ variable: "--font-archivo", subsets: ["latin"], axes: ["wdth"] });
+const mono = JetBrains_Mono({ variable: "--font-jbmono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Overture",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${tight.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${archivo.variable} ${mono.variable} font-sans antialiased`}>
         <header className="no-print absolute inset-x-0 top-0 z-20">
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-6">
             <Link href="/" className="flex items-center gap-2.5">

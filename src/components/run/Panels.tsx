@@ -4,12 +4,32 @@ import type { QlooCall } from "@/lib/qloo";
 import type { Ranked, RunState } from "./state";
 import { UsMap } from "./UsMap";
 
-export function Card({ title, note, children }: { title: string; note?: string; children: React.ReactNode }) {
+export function Frame({
+  id,
+  index,
+  title,
+  note,
+  children,
+  className = "",
+}: {
+  id?: string;
+  index?: string;
+  title: string;
+  note?: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <section className="rounded-2xl border border-line bg-panel p-6">
-      <h3 className="font-display text-2xl">{title}</h3>
-      {note && <p className="mt-1 text-sm text-muted">{note}</p>}
-      <div className="mt-5">{children}</div>
+    <section id={id} className={`plot scroll-mt-24 ${className}`}>
+      <div className="ruler" />
+      <div className="p-6 sm:p-8">
+        <div className="flex items-baseline gap-4">
+          {index && <span className="font-mono text-xs text-accent">{index}</span>}
+          <h3 className="font-display text-3xl sm:text-4xl">{title}</h3>
+        </div>
+        {note && <p className="mt-2 max-w-2xl text-sm text-muted">{note}</p>}
+        <div className="mt-6">{children}</div>
+      </div>
     </section>
   );
 }
@@ -26,57 +46,77 @@ const AGE_LABEL: Record<string, string> = {
 function Lean({ label, value }: { label: string; value: number }) {
   const w = Math.min(50, Math.abs(value) * 50);
   return (
-    <div className="grid grid-cols-[6rem_1fr_3.5rem] items-center gap-3 text-sm">
-      <span className="text-muted">{label}</span>
-      <div className="relative h-2.5 rounded-full bg-line">
-        <div className="absolute top-0 h-full w-px bg-muted/60" style={{ left: "50%" }} />
+    <div className="grid grid-cols-[5.5rem_1fr_3.5rem] items-center gap-3 text-sm">
+      <span className="font-mono text-xs uppercase text-muted">{label}</span>
+      <div className="relative h-2">
+        <div className="absolute inset-y-0 left-1/2 w-px bg-muted/50" />
+        <div className="absolute inset-x-0 top-1/2 h-px bg-line" />
         <div
-          className={`absolute top-0 h-full rounded-full ${value >= 0 ? "bg-accent" : "bg-muted/50"}`}
+          className={`absolute top-0 h-full ${value >= 0 ? "bg-accent" : "bg-muted/40"}`}
           style={value >= 0 ? { left: "50%", width: `${w}%` } : { right: "50%", width: `${w}%` }}
         />
       </div>
-      <span className="text-right tabular-nums">{value > 0 ? "+" : ""}{value.toFixed(2)}</span>
+      <span className="text-right font-mono text-xs tabular-nums">
+        {value > 0 ? "+" : ""}
+        {value.toFixed(2)}
+      </span>
+    </div>
+  );
+}
+
+function Chips({ items, hot }: { items: string[]; hot?: boolean }) {
+  return (
+    <div className="mt-2 flex flex-wrap gap-1.5">
+      {items.map((t) => (
+        <span key={t} className={`border px-2.5 py-1 text-xs ${hot ? "border-accent/60 text-ink" : "border-line text-muted"}`}>
+          {t}
+        </span>
+      ))}
     </div>
   );
 }
 
 export function AudiencePanel({ a }: { a: NonNullable<RunState["audience"]> }) {
   return (
-    <Card title="Who the audience is" note="Lean versus the average Qloo audience. Plus means over-represented.">
-      <div className="space-y-2">
-        {Object.entries(a.age).map(([k, v]) => <Lean key={k} label={AGE_LABEL[k] ?? k} value={v} />)}
-        {Object.entries(a.gender).map(([k, v]) => <Lean key={k} label={k[0].toUpperCase() + k.slice(1)} value={v} />)}
+    <Frame id="audience" index="03" title="The audience" note="Lean against the average Qloo audience. Right of centre means over-represented.">
+      <div className="space-y-2.5">
+        {Object.entries(a.age).map(([k, v]) => (
+          <Lean key={k} label={AGE_LABEL[k] ?? k} value={v} />
+        ))}
+        <div className="h-2" />
+        {Object.entries(a.gender).map(([k, v]) => (
+          <Lean key={k} label={k} value={v} />
+        ))}
       </div>
-      {a.themes.length > 0 && (
-        <>
-          <p className="mt-6 text-sm text-muted">What the film means to them</p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {a.themes.map((t) => <span key={t} className="rounded-full bg-panel-2 px-3 py-1 text-sm">{t}</span>)}
-          </div>
-        </>
-      )}
       {a.sharedWithMusicalFans.length > 0 && (
-        <>
-          <p className="mt-5 text-sm text-muted">Common ground with musical-theatre fans</p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {a.sharedWithMusicalFans.map((t) => <span key={t} className="rounded-full bg-accent-soft px-3 py-1 text-sm text-accent">{t}</span>)}
-          </div>
-        </>
+        <div className="mt-7">
+          <span className="tag">Common ground with musical fans</span>
+          <Chips items={a.sharedWithMusicalFans} hot />
+        </div>
       )}
-    </Card>
+      {a.themes.length > 0 && (
+        <div className="mt-5">
+          <p className="font-mono text-xs uppercase text-muted">What the film means to them</p>
+          <Chips items={a.themes} />
+        </div>
+      )}
+    </Frame>
   );
 }
 
 export function TourPanel({ t }: { t: NonNullable<RunState["tour"]> }) {
   return (
-    <Card title="Where to tour" note="US areas where this film's audience over-indexes, matched to touring markets.">
+    <Frame id="tour" index="04" title="Where to tour" note="US areas where this film's audience over-indexes, matched to touring markets.">
       <UsMap cells={t.cells} markets={t.markets} />
-      <ol className="mt-4 grid grid-cols-2 gap-x-6 gap-y-1 text-sm sm:grid-cols-3">
+      <ol className="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3">
         {t.markets.map((m, i) => (
-          <li key={m.name}><span className="text-muted">{i + 1}.</span> {m.name}</li>
+          <li key={m.name} className="flex items-baseline gap-3 border-t border-line pt-2">
+            <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
+            <span>{m.name}</span>
+          </li>
         ))}
       </ol>
-    </Card>
+    </Frame>
   );
 }
 
@@ -84,12 +124,12 @@ function NameList({ label, items }: { label: string; items: Ranked[] }) {
   if (!items.length) return null;
   return (
     <div>
-      <p className="text-sm text-muted">{label}</p>
-      <ul className="mt-2 space-y-1.5">
+      <p className="font-mono text-xs uppercase text-muted">{label}</p>
+      <ul className="mt-3">
         {items.map((x) => (
-          <li key={x.id} className="flex items-baseline justify-between gap-3">
-            <span className="text-lg">{x.name}</span>
-            <span className="text-sm tabular-nums text-muted">{x.affinity.toFixed(2)}</span>
+          <li key={x.id} className="flex items-baseline justify-between gap-3 border-t border-line py-2">
+            <span>{x.name}</span>
+            <span className="font-mono text-xs tabular-nums text-muted">{x.affinity.toFixed(2)}</span>
           </li>
         ))}
       </ul>
@@ -99,63 +139,77 @@ function NameList({ label, items }: { label: string; items: Ranked[] }) {
 
 export function CreativePanel({ c }: { c: NonNullable<RunState["creative"]> }) {
   return (
-    <Card title="Who they'd come to see" note="Performers and musicians this audience loves. A starting list for casting and the score, not an offer list.">
+    <Frame id="talent" index="05" title="Who they'd come to see" note="Performers and musicians this audience loves. A starting list for casting and the score.">
       <div className="grid gap-8 sm:grid-cols-2">
         <NameList label="Performers" items={c.performers} />
         <NameList label="Musicians" items={c.musicians} />
       </div>
-    </Card>
+    </Frame>
   );
 }
 
 export function PartnersPanel({ p }: { p: NonNullable<RunState["partners"]> }) {
   return (
-    <Card title="Where to reach them" note="Brands, podcasts and TV this audience over-indexes on, for sponsorship and ad buys.">
+    <Frame id="partners" index="06" title="Where to reach them" note="Brands, podcasts and TV this audience over-indexes on, for sponsorship and media buys.">
       <div className="grid gap-8 sm:grid-cols-3">
         <NameList label="Brands" items={p.brands} />
         <NameList label="Podcasts" items={p.podcasts} />
         <NameList label="TV" items={p.tvShows} />
       </div>
-    </Card>
+    </Frame>
   );
 }
 
 export function MemoPanel({ m }: { m: Memo }) {
   return (
-    <section className="rounded-2xl border border-accent/40 bg-panel p-8">
-      <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <p className="text-sm uppercase tracking-widest text-accent">Greenlight memo</p>
-        <button onClick={() => window.print()} className="no-print rounded-full border border-line px-4 py-1.5 text-sm text-muted hover:text-ink">
-          Print or save as PDF
-        </button>
-      </div>
-      <h2 className="mt-3 font-display text-4xl leading-tight">{m.headline}</h2>
-      <p className="mt-4 text-lg">{m.recommendation}</p>
-      <h4 className="mt-8 font-display text-xl">Why</h4>
-      <ul className="mt-3 space-y-3">
-        {m.reasons.map((r, i) => (
-          <li key={i}>
-            <p>{r.claim}</p>
-            <p className="text-sm text-muted">Evidence: {r.evidence}</p>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-8 grid gap-6 sm:grid-cols-2">
-        {([["Audience", m.audience], ["Tour", m.tour], ["Creative", m.creative], ["Marketing", m.marketing]] as const).map(([k, v]) => (
-          <div key={k}>
-            <h4 className="font-display text-xl">{k}</h4>
-            <p className="mt-1 text-sm leading-relaxed">{v}</p>
+    <section id="memo" className="plot scroll-mt-24 border-accent/50">
+      <div className="ruler" />
+      <div className="p-6 sm:p-10">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-baseline gap-4">
+            <span className="font-mono text-xs text-accent">02</span>
+            <span className="tag">Greenlight memo</span>
           </div>
-        ))}
-      </div>
-      <div className="mt-8 grid gap-6 sm:grid-cols-2">
-        <div>
-          <h4 className="font-display text-xl">Risks</h4>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">{m.risks.map((r, i) => <li key={i}>{r}</li>)}</ul>
+          <button onClick={() => window.print()} className="no-print font-mono text-xs uppercase text-muted hover:text-ink">
+            Print / save PDF
+          </button>
         </div>
-        <div>
-          <h4 className="font-display text-xl">Next steps</h4>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">{m.nextSteps.map((r, i) => <li key={i}>{r}</li>)}</ul>
+        <h2 className="mt-6 max-w-4xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{m.headline}</h2>
+        <p className="mt-4 max-w-3xl text-lg text-muted">{m.recommendation}</p>
+        <ol className="mt-8 grid gap-px bg-line sm:grid-cols-2">
+          {m.reasons.map((r, i) => (
+            <li key={i} className="bg-bg p-5">
+              <span className="font-mono text-xs text-accent">R{i + 1}</span>
+              <p className="mt-2 font-medium">{r.claim}</p>
+              <p className="mt-2 text-sm text-muted">{r.evidence}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          {([["Audience", m.audience], ["Tour", m.tour], ["Creative", m.creative], ["Marketing", m.marketing]] as const).map(([k, v]) => (
+            <div key={k} className="border-t border-line pt-3">
+              <p className="font-mono text-xs uppercase text-accent">{k}</p>
+              <p className="mt-2 text-sm leading-relaxed">{v}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <div className="border-t border-line pt-3">
+            <p className="font-mono text-xs uppercase text-accent">Risks</p>
+            <ul className="mt-2 space-y-2 text-sm">
+              {m.risks.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="border-t border-line pt-3">
+            <p className="font-mono text-xs uppercase text-accent">Next steps</p>
+            <ul className="mt-2 space-y-2 text-sm">
+              {m.nextSteps.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -163,57 +217,63 @@ export function MemoPanel({ m }: { m: Memo }) {
 }
 
 const TOOL_LABEL: Record<string, string> = {
-  resolve_films: "Match titles to Qloo films",
+  resolve_films: "Match titles",
   score_films: "Score audience fit",
   audience_profile: "Profile the audience",
   tour_markets: "Find touring markets",
-  creative_team: "Find performers and musicians",
-  marketing_partners: "Find marketing partners",
+  creative_team: "Find performers",
+  marketing_partners: "Find partners",
 };
 
 function CallLine({ c }: { c: QlooCall }) {
   return (
-    <li className="flex justify-between gap-2 font-mono text-xs text-muted">
+    <li className="flex justify-between gap-2 font-mono text-[11px] text-muted">
       <span className="truncate">
-        {c.tool.replace("qloo_", "")}
-        <span className={c.status === "ok" ? "text-strong" : "text-accent"}> {c.status}</span>
+        {c.tool.replace("qloo_", "")} <span className={c.status === "ok" ? "text-strong" : "text-middle"}>{c.status}</span>
       </span>
-      <span className="shrink-0 tabular-nums">{c.cached ? "cached" : `${c.ms} ms`}</span>
+      <span className="shrink-0 tabular-nums">{c.cached ? "cache" : `${c.ms}ms`}</span>
     </li>
   );
 }
 
-export function Trace({ s }: { s: RunState }) {
+// The agent trace, written like a stage manager's cue sheet.
+export function CueSheet({ s }: { s: RunState }) {
   const total = s.steps.reduce((n, st) => n + st.calls.length, 0);
   return (
-    <aside className="rounded-2xl border border-line bg-panel p-5">
-      <div className="flex items-baseline justify-between">
-        <h3 className="font-display text-xl">Agent trace</h3>
-        <span className="text-xs text-muted">{total} Qloo calls</span>
-      </div>
-      <ol className="mt-4 space-y-4">
-        {s.steps.map((st, i) => (
-          <li key={i}>
-            <div className="flex items-center gap-2">
-              <span className={`h-2 w-2 rounded-full ${st.done ? "bg-strong" : "animate-pulse bg-accent"}`} />
-              <span className="text-sm">{TOOL_LABEL[st.tool] ?? st.tool}</span>
-            </div>
-            <ul className="ml-4 mt-1.5 space-y-0.5 border-l border-line pl-3">
-              {st.calls.map((c, j) => <CallLine key={j} c={c} />)}
-            </ul>
-          </li>
-        ))}
-        {s.status === "running" && (
-          <li className="flex items-center gap-2 text-sm text-muted">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-accent" /> Thinking
-          </li>
-        )}
-      </ol>
-      {s.thoughts.length > 0 && (
-        <div className="mt-5 border-t border-line pt-4 text-sm text-muted">
-          {s.thoughts.map((t, i) => <p key={i} className="mt-2">{t}</p>)}
+    <aside className="plot">
+      <div className="ruler" />
+      <div className="p-5">
+        <div className="flex items-baseline justify-between">
+          <span className="tag">Cue sheet</span>
+          <span className="font-mono text-[11px] text-muted">{total} Qloo calls</span>
         </div>
-      )}
+        <ol className="mt-5 space-y-4">
+          {s.steps.map((st, i) => (
+            <li key={i}>
+              <div className="flex items-center justify-between font-mono text-xs uppercase">
+                <span>
+                  <span className="text-accent">Cue {String(i + 1).padStart(2, "0")}</span> {TOOL_LABEL[st.tool] ?? st.tool}
+                </span>
+                <span className={st.done ? "text-strong" : "animate-pulse text-middle"}>{st.done ? "Go" : "Standby"}</span>
+              </div>
+              <ul className="mt-1.5 space-y-0.5 border-l border-line pl-3">
+                {st.calls.map((c, j) => (
+                  <CallLine key={j} c={c} />
+                ))}
+              </ul>
+            </li>
+          ))}
+          {s.status === "running" && <li className="animate-pulse font-mono text-xs uppercase text-middle">Standby: agent thinking</li>}
+          {s.memo && (
+            <li className="flex justify-between font-mono text-xs uppercase">
+              <span>
+                <span className="text-accent">Cue {String(s.steps.length + 1).padStart(2, "0")}</span> Write the memo
+              </span>
+              <span className="text-strong">Go</span>
+            </li>
+          )}
+        </ol>
+      </div>
     </aside>
   );
 }
