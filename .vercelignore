@@ -1,0 +1,5 @@
+notes
+.cache
+.playwright-mcp
+CLAUDE.md
+.env*

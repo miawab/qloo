@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { MODEL } from "@/lib/agent";
+import { DATA_DIR } from "@/lib/paths";
 
 export const runtime = "nodejs";
 
@@ -11,7 +12,7 @@ export const runtime = "nodejs";
 export async function POST(req: Request) {
   const { films } = (await req.json()) as { films?: string[] };
   if (!films?.length || films.length > 10) return Response.json({ error: "Send 1 to 10 film names." }, { status: 400 });
-  const dir = path.join(process.cwd(), ".cache", "baseline");
+  const dir = path.join(DATA_DIR, "baseline");
   const file = path.join(dir, createHash("sha256").update(films.join("|")).digest("hex").slice(0, 24) + ".json");
   try {
     return Response.json(JSON.parse(await readFile(file, "utf8")));

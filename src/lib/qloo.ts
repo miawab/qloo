@@ -4,6 +4,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { DATA_DIR } from "./paths";
 
 // Every Qloo call goes through the canonical `qloo mcp` server from
 // @qloo/qloo-harness. The API key stays in this process's environment.
@@ -47,8 +48,9 @@ export type QlooCall = {
   resultCount: number;
 };
 
-const CACHE_DIR = path.join(process.cwd(), ".cache", "qloo");
-const HARNESS_BIN = path.join(process.cwd(), "node_modules", "@qloo", "qloo-harness", "dist", "bin.js");
+const CACHE_DIR = path.join(DATA_DIR, "qloo");
+// Launches the harness's canonical MCP server (see scripts/qloo-mcp.mjs).
+const MCP_LAUNCHER = path.join(process.cwd(), "scripts", "qloo-mcp.mjs");
 
 let clientPromise: Promise<Client> | null = null;
 
@@ -61,7 +63,10 @@ function connect(): Promise<Client> {
       const env = Object.fromEntries(
         Object.entries(process.env).filter((e): e is [string, string] => typeof e[1] === "string"),
       );
-      await client.connect(new StdioClientTransport({ command: process.execPath, args: [HARNESS_BIN, "mcp"], env }));
+      // The harness keeps its own state under QLOO_HOME; point it somewhere writable.
+      env.QLOO_HOME ??= path.join(DATA_DIR, "qloo-home");
+      if (process.env.VERCEL) env.HOME = DATA_DIR;
+      await client.connect(new StdioClientTransport({ command: process.execPath, args: [MCP_LAUNCHER], env }));
       return client;
     })().catch((err) => {
       clientPromise = null;
