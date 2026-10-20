@@ -1,0 +1,617 @@
+{
+ "panel": [
+  {
+   "id": "A572B5F1-FC14-4525-B0F2-D0AB05D91915",
+   "name": "The Greatest Showman",
+   "year": 2017
+  },
+  {
+   "id": "B8A7FAAA-E58F-47EE-92D9-A7718CB2C264",
+   "name": "Les Misérables",
+   "year": 2012
+  },
+  {
+   "id": "C8312E28-3100-4F12-974A-7EA97763F53A",
+   "name": "Mamma Mia!",
+   "year": 2008
+  },
+  {
+   "id": "73E550EF-654A-41EA-863C-E958002CF7BA",
+   "name": "La La Land",
+   "year": 2016
+  },
+  {
+   "id": "0A19714F-2BF0-4C96-AB7B-C55AE63543B2",
+   "name": "Chicago",
+   "year": 2002
+  },
+  {
+   "id": "5D9FF4F9-669F-4158-BCAE-D184D885B440",
+   "name": "Into the Woods",
+   "year": 2014
+  }
+ ],
+ "generated": "2026-10-20",
+ "shows": [
+  {
+   "show": "9 to 5",
+   "film": "9 to 5",
+   "filmYear": 1980,
+   "opened": 2009,
+   "performances": 148,
+   "qlooId": "6FDE092D-8B56-4EFB-97AA-2FB2D569097D",
+   "affinity": 0.8070655818339666,
+   "popularity": 0.9644052787317221
+  },
+  {
+   "show": "An American in Paris",
+   "film": "An American in Paris",
+   "filmYear": 1951,
+   "opened": 2015,
+   "performances": 623,
+   "qlooId": "DC686FDD-2585-46C3-B375-F97260BB0CF5",
+   "affinity": 0.8570024777771278,
+   "popularity": 0.9450420095466425
+  },
+  {
+   "show": "Amélie",
+   "film": "Amélie",
+   "filmYear": 2001,
+   "opened": 2017,
+   "performances": 56,
+   "qlooId": "B7A0731F-EC92-496A-9C40-47D9770489B6",
+   "affinity": 0.8200857266129037,
+   "popularity": 0.9990496555001188
+  },
+  {
+   "show": "Back to the Future: The Musical",
+   "film": "Back to the Future",
+   "filmYear": 1985,
+   "opened": 2023,
+   "performances": 597,
+   "qlooId": "093819FF-790D-4CD9-BBCA-71D2A4FEEBD8",
+   "affinity": 0.7401985204024517,
+   "popularity": 0.9993844359489406
+  },
+  {
+   "show": "Almost Famous",
+   "film": "Almost Famous",
+   "filmYear": 2000,
+   "opened": 2022,
+   "performances": 77,
+   "qlooId": "6C527B60-90F7-47B9-A5FD-0C846B4EE8BB",
+   "affinity": 0.8029789295551878,
+   "popularity": 0.9939415538132573
+  },
+  {
+   "show": "The Band's Visit",
+   "film": "The Band's Visit",
+   "filmYear": 2007,
+   "opened": 2017,
+   "performances": 589,
+   "qlooId": "7417135A-371E-417A-95C6-E9323B0FE29C",
+   "affinity": 0.7291377675306822,
+   "popularity": 0.8838743817361067
+  },
+  {
+   "show": "Big",
+   "film": "Big",
+   "filmYear": 1988,
+   "opened": 1996,
+   "performances": 193,
+   "qlooId": "A7DA69CD-766F-48A9-BEEF-736286AB5C22",
+   "affinity": 0.7892815073844923,
+   "popularity": 0.9773753212812372
+  },
+  {
+   "show": "Big Deal",
+   "film": "Big Deal on Madonna Street",
+   "filmYear": 1958,
+   "opened": 1986,
+   "performances": 69,
+   "qlooId": "74F43DD0-1E27-4000-A275-31D6E4D3C557",
+   "affinity": 0.6980943077319725,
+   "popularity": 0.9159269098684637
+  },
+  {
+   "show": "Big Fish",
+   "film": "Big Fish",
+   "filmYear": 2003,
+   "opened": 2013,
+   "performances": 98,
+   "qlooId": "BA099DA3-DD1A-42ED-BAC0-D4CB73B654DF",
+   "affinity": 0.8033619398598221,
+   "popularity": 0.9925592345407028
+  },
+  {
+   "show": "Billy Elliot the Musical",
+   "film": "Billy Elliot",
+   "filmYear": 2000,
+   "opened": 2008,
+   "performances": 1312,
+   "qlooId": "980744D9-31BD-495C-A413-52CAAB453DC9",
+   "affinity": 0.8497365657711967,
+   "popularity": 0.987407935376574
+  },
+  {
+   "show": "Bring It On: The Musical",
+   "film": "Bring It On",
+   "filmYear": 2000,
+   "opened": 2012,
+   "performances": 173,
+   "qlooId": "635DB745-50D1-4285-9E24-1E484C5DF658",
+   "affinity": 0.8208907615035265,
+   "popularity": 0.977710101730059
+  },
+  {
+   "show": "Bullets Over Broadway",
+   "film": "Bullets Over Broadway",
+   "filmYear": 1994,
+   "opened": 2014,
+   "performances": 156,
+   "qlooId": "17A74D4C-DFCB-42FC-BD0A-17DAD1E34071",
+   "affinity": 0.7568702444191773,
+   "popularity": 0.9113695760167606
+  },
+  {
+   "show": "Carrie",
+   "film": "Carrie",
+   "filmYear": 1976,
+   "opened": 1988,
+   "performances": 5,
+   "qlooId": "BFDE2B6F-71AF-4E3C-877B-235F7392E17E",
+   "affinity": 0.7473970433314222,
+   "popularity": 0.9937363657962375
+  },
+  {
+   "show": "Catch Me If You Can",
+   "film": "Catch Me If You Can",
+   "filmYear": 2002,
+   "opened": 2011,
+   "performances": 170,
+   "qlooId": "BDAD8908-2EE9-4845-883F-AF554CA0DA84",
+   "affinity": 0.7896966151502266,
+   "popularity": 0.9985312857729108
+  },
+  {
+   "show": "A Catered Affair",
+   "film": "The Catered Affair",
+   "filmYear": 1956,
+   "opened": 2008,
+   "performances": 116,
+   "qlooId": "4D6E61FA-C712-46BF-8E8E-1E9317F9ACF8",
+   "affinity": 0.7791821322050908,
+   "popularity": 0.6366660187045077
+  },
+  {
+   "show": "Charlie and the Chocolate Factory",
+   "film": "Willy Wonka & the Chocolate Factory",
+   "filmYear": 1971,
+   "opened": 2017,
+   "performances": 305,
+   "qlooId": "95230D89-D0D0-4758-91F3-E9A674D3A53C",
+   "affinity": 0.8266525709419787,
+   "popularity": 0.9879695025810493
+  },
+  {
+   "show": "Chitty Chitty Bang Bang",
+   "film": "Chitty Chitty Bang Bang",
+   "filmYear": 1968,
+   "opened": 2005,
+   "performances": 285,
+   "qlooId": "F6EACAE3-6317-4556-8BDC-633716E6D4C1",
+   "affinity": 0.8174226190824782,
+   "popularity": 0.9506684809607119
+  },
+  {
+   "show": "Cry-Baby",
+   "film": "Cry-Baby",
+   "filmYear": 1990,
+   "opened": 2008,
+   "performances": 68,
+   "qlooId": "37281CD5-A06D-46FD-A943-07AC6D5CD6C5",
+   "affinity": 0.8244627368236545,
+   "popularity": 0.9719648372535044
+  },
+  {
+   "show": "Dirty Rotten Scoundrels",
+   "film": "Dirty Rotten Scoundrels",
+   "filmYear": 1988,
+   "opened": 2005,
+   "performances": 626,
+   "qlooId": "B0ACDA4A-F3F5-4FDA-9EAD-C8C9CCB41A65",
+   "affinity": 0.7064620277442274,
+   "popularity": 0.9552906110283159
+  },
+  {
+   "show": "Finding Neverland",
+   "film": "Finding Neverland",
+   "filmYear": 2004,
+   "opened": 2015,
+   "performances": 565,
+   "qlooId": "18A1D8D4-BAF4-43E5-BB02-650B3021F40D",
+   "affinity": 0.8311591565348072,
+   "popularity": 0.9672239141234152
+  },
+  {
+   "show": "Footloose",
+   "film": "Footloose",
+   "filmYear": 1984,
+   "opened": 1998,
+   "performances": 709,
+   "qlooId": "6D6F80AF-2AE0-400B-B316-ED92ECA7EC9B",
+   "affinity": 0.8229829033169322,
+   "popularity": 0.9722024233784747
+  },
+  {
+   "show": "The Full Monty",
+   "film": "The Full Monty",
+   "filmYear": 1997,
+   "opened": 2000,
+   "performances": 770,
+   "qlooId": "6D6DFA77-7DFA-4D2B-9327-B28458B34363",
+   "affinity": 0.7643149476877537,
+   "popularity": 0.9619214237888507
+  },
+  {
+   "show": "Ghost",
+   "film": "Ghost",
+   "filmYear": 1990,
+   "opened": 2012,
+   "performances": 136,
+   "qlooId": "DEF93FF9-9099-4AA3-98DB-3D2E9313FA23",
+   "affinity": 0.7959798089919943,
+   "popularity": 0.9829801939566729
+  },
+  {
+   "show": "The Goodbye Girl",
+   "film": "The Goodbye Girl",
+   "filmYear": 1977,
+   "opened": 1993,
+   "performances": 188,
+   "qlooId": "125F6ECE-8806-4C84-B30B-F3D3BE9A7B85",
+   "affinity": 0.8090813327176838,
+   "popularity": 0.8764444156461263
+  },
+  {
+   "show": "Grand Hotel",
+   "film": "Grand Hotel",
+   "filmYear": 1932,
+   "opened": 1989,
+   "performances": 1017,
+   "qlooId": "BB1C6062-D884-4BD7-9FDC-112097EC533F",
+   "affinity": 0.8289110497909763,
+   "popularity": 0.8869414026220869
+  },
+  {
+   "show": "Grey Gardens",
+   "film": "Grey Gardens",
+   "filmYear": 1975,
+   "opened": 2006,
+   "performances": 307,
+   "qlooId": "7249134C-CD89-426C-A40B-213311A2F5A1",
+   "affinity": 0.7465649204043843,
+   "popularity": 0.9651720339532172
+  },
+  {
+   "show": "Hands on a Hardbody",
+   "film": "Hands on a Hardbody: The Documentary",
+   "filmYear": 1997,
+   "opened": 2013,
+   "performances": 28,
+   "qlooId": "E789A3E1-F981-4A64-B78D-5BC0E4E0E01A",
+   "affinity": 0.6923265508791833,
+   "popularity": 0.871768288731938
+  },
+  {
+   "show": "High Society",
+   "film": "High Society",
+   "filmYear": 1956,
+   "opened": 1998,
+   "performances": 144,
+   "qlooId": "B15EA043-3424-4A6D-9F63-2F6976CB3CFD",
+   "affinity": 0.8321353446475815,
+   "popularity": 0.9026652843473941
+  },
+  {
+   "show": "How to Dance in Ohio",
+   "film": "How to Dance in Ohio",
+   "filmYear": 2015,
+   "opened": 2023,
+   "performances": 72,
+   "qlooId": "3C93EEB5-B943-46F0-9A69-6515CA0AF6A7",
+   "affinity": 0.7565243569827816,
+   "popularity": 0.3999006458022851
+  },
+  {
+   "show": "King Kong",
+   "film": "King Kong",
+   "filmYear": 1933,
+   "opened": 2018,
+   "performances": 324,
+   "qlooId": "D2C689CE-A324-4277-9562-9B4B9B2B1097",
+   "affinity": 0.733221537383092,
+   "popularity": 0.9583252338063457
+  },
+  {
+   "show": "Legally Blonde",
+   "film": "Legally Blonde",
+   "filmYear": 2001,
+   "opened": 2007,
+   "performances": 595,
+   "qlooId": "97A9C3A6-B294-417D-9F64-718AE29C1511",
+   "affinity": 0.8618284068323455,
+   "popularity": 0.9955722585800989
+  },
+  {
+   "show": "Legs Diamond",
+   "film": "The Rise and Fall of Legs Diamond",
+   "filmYear": 1960,
+   "opened": 1988,
+   "performances": 64,
+   "qlooId": "BDDF2CC9-8719-454B-B0BA-7E2E4602B136",
+   "affinity": 0.6810892956235387,
+   "popularity": 0.4903777619387028
+  },
+  {
+   "show": "Meet Me in St. Louis",
+   "film": "Meet Me in St. Louis",
+   "filmYear": 1944,
+   "opened": 1989,
+   "performances": 252,
+   "qlooId": "9222A89B-259F-42C5-9D11-38CDB137BF47",
+   "affinity": 0.8627521285649041,
+   "popularity": 0.9587788073176526
+  },
+  {
+   "show": "Mr. Saturday Night",
+   "film": "Mr. Saturday Night",
+   "filmYear": 1992,
+   "opened": 2022,
+   "performances": 116,
+   "qlooId": "D819031D-B8AC-4CEC-B9F0-E464DA3B0C23",
+   "affinity": 0.7076808842218306,
+   "popularity": 0.5674096632756647
+  },
+  {
+   "show": "Mrs. Doubtfire",
+   "film": "Mrs. Doubtfire",
+   "filmYear": 1993,
+   "opened": 2021,
+   "performances": 83,
+   "qlooId": "404C8AC7-1F46-4B13-9060-CC64CC5A1018",
+   "affinity": 0.8041984811987529,
+   "popularity": 0.9868247694334651
+  },
+  {
+   "show": "My Favorite Year",
+   "film": "My Favorite Year",
+   "filmYear": 1982,
+   "opened": 1992,
+   "performances": 36,
+   "qlooId": "AD31428E-14C4-4E6D-A960-BBE6EF63F6B4",
+   "affinity": 0.7609903728457781,
+   "popularity": 0.8158383550400656
+  },
+  {
+   "show": "Never Gonna Dance",
+   "film": "Swing Time",
+   "filmYear": 1936,
+   "opened": 2003,
+   "performances": 84,
+   "qlooId": "4F4F38BB-E2BB-47BF-8510-205891CA510A",
+   "affinity": 0.8018794199477657,
+   "popularity": 0.8684744810903043
+  },
+  {
+   "show": "New York, New York",
+   "film": "New York, New York",
+   "filmYear": 1977,
+   "opened": 2023,
+   "performances": 110,
+   "qlooId": "4B897A1B-2EB4-4889-9E5F-FB1E584E83D9",
+   "affinity": 0.8058799617227281,
+   "popularity": 0.9103544353009784
+  },
+  {
+   "show": "Newsies",
+   "film": "Newsies",
+   "filmYear": 1992,
+   "opened": 2012,
+   "performances": 1004,
+   "qlooId": "080E239A-A080-4373-A024-BF5925F3ACBA",
+   "affinity": 0.8533368502379461,
+   "popularity": 0.9322339575368799
+  },
+  {
+   "show": "Once",
+   "film": "Once",
+   "filmYear": 2007,
+   "opened": 2012,
+   "performances": 1167,
+   "qlooId": "17CB0B60-395F-4CBF-A469-AE4782ED2C72",
+   "affinity": 0.8594355244376379,
+   "popularity": 0.9758526102075639
+  },
+  {
+   "show": "Passion",
+   "film": "Passion of Love",
+   "filmYear": 1981,
+   "opened": 1994,
+   "performances": 280,
+   "qlooId": "11BF3D01-C182-4064-B4C3-72DA3987DE7E",
+   "affinity": 0.7003974162613709,
+   "popularity": 0.2474891466338366
+  },
+  {
+   "show": "Pretty Woman",
+   "film": "Pretty Woman",
+   "filmYear": 1990,
+   "opened": 2018,
+   "performances": 420,
+   "qlooId": "5FFF477A-AC60-486E-85ED-DB184B951FD2",
+   "affinity": 0.8709062120873884,
+   "popularity": 0.9940387481371088
+  },
+  {
+   "show": "Priscilla, Queen of the Desert",
+   "film": "The Adventures of Priscilla, Queen of the Desert",
+   "filmYear": 1994,
+   "opened": 2011,
+   "performances": 526,
+   "qlooId": "2C210827-1479-4CF3-A35E-DC302D91B3DD",
+   "affinity": 0.7983680605380113,
+   "popularity": 0.9784012613663362
+  },
+  {
+   "show": "The Red Shoes",
+   "film": "The Red Shoes",
+   "filmYear": 1948,
+   "opened": 1993,
+   "performances": 5,
+   "qlooId": "41A3E3AC-95B7-4D38-BFC3-E421DB2A8416",
+   "affinity": 0.7869035781112315,
+   "popularity": 0.982267435581762
+  },
+  {
+   "show": "Saturday Night Fever",
+   "film": "Saturday Night Fever",
+   "filmYear": 1977,
+   "opened": 1999,
+   "performances": 501,
+   "qlooId": "F9311E50-8E3F-46CF-9393-8D5FC14F3A9A",
+   "affinity": 0.8124681491477912,
+   "popularity": 0.9646860623339597
+  },
+  {
+   "show": "School of Rock",
+   "film": "School of Rock",
+   "filmYear": 2003,
+   "opened": 2015,
+   "performances": 1309,
+   "qlooId": "FA0BEB00-7FDC-4FF7-8A3D-22B8FB0477FA",
+   "affinity": 0.7917158757896515,
+   "popularity": 0.9929048143588415
+  },
+  {
+   "show": "Singin' in the Rain",
+   "film": "Singin' in the Rain",
+   "filmYear": 1952,
+   "opened": 1985,
+   "performances": 367,
+   "qlooId": "59775A1E-5968-480C-94B2-47BE50CA3CD2",
+   "affinity": 0.8274738802255032,
+   "popularity": 0.9958422428130197
+  },
+  {
+   "show": "Smile",
+   "film": "Smile",
+   "filmYear": 1975,
+   "opened": 1986,
+   "performances": 48,
+   "qlooId": "CB8F07CE-2A74-46A4-A3A4-33BB8C6483E7",
+   "affinity": 0.7464532880625224,
+   "popularity": 0.7024881746905981
+  },
+  {
+   "show": "State Fair",
+   "film": "State Fair",
+   "filmYear": 1945,
+   "opened": 1996,
+   "performances": 118,
+   "qlooId": "A949DFA3-5F4E-46A6-A35A-F1DECDF80293",
+   "affinity": 0.8172552498975639,
+   "popularity": 0.7192703946089548
+  },
+  {
+   "show": "Sweet Smell of Success",
+   "film": "Sweet Smell of Success",
+   "filmYear": 1957,
+   "opened": 2002,
+   "performances": 109,
+   "qlooId": "BD5331B3-C644-466D-B6CB-5479F24C7F87",
+   "affinity": 0.701109092052333,
+   "popularity": 0.9568673189485734
+  },
+  {
+   "show": "Thoroughly Modern Millie",
+   "film": "Thoroughly Modern Millie",
+   "filmYear": 1967,
+   "opened": 2002,
+   "performances": 903,
+   "qlooId": "2E63BB5A-82A3-4F56-B815-E787EA939D57",
+   "affinity": 0.8332281841182638,
+   "popularity": 0.8244130542776302
+  },
+  {
+   "show": "Urban Cowboy",
+   "film": "Urban Cowboy",
+   "filmYear": null,
+   "opened": 2003,
+   "performances": 60,
+   "qlooId": "741432A3-4BE4-4A6B-9B61-FBD3F8D9858C",
+   "affinity": 0.7723204937669134,
+   "popularity": 0.8605261452731161
+  },
+  {
+   "show": "Victor/Victoria",
+   "film": "Victor/Victoria",
+   "filmYear": 1982,
+   "opened": 1995,
+   "performances": 734,
+   "qlooId": "7EEFBEC1-9B4E-4828-8AF2-207AFE083D42",
+   "affinity": 0.8240074638626917,
+   "popularity": 0.9360245361670878
+  },
+  {
+   "show": "Waitress",
+   "film": "Waitress",
+   "filmYear": 2007,
+   "opened": 2016,
+   "performances": 1544,
+   "qlooId": "1D95A25A-1DB7-4C79-B679-F45A53FC1935",
+   "affinity": 0.8060929375701509,
+   "popularity": 0.9528823516706625
+  },
+  {
+   "show": "The Wedding Singer",
+   "film": "The Wedding Singer",
+   "filmYear": 1998,
+   "opened": 2006,
+   "performances": 284,
+   "qlooId": "0E29CB16-7CEA-4CC8-8CCD-2C801A08C2C4",
+   "affinity": 0.8031721684112548,
+   "popularity": 0.9728071880602173
+  },
+  {
+   "show": "Women on the Verge of a Nervous Breakdown",
+   "film": "Women on the Verge of a Nervous Breakdown",
+   "filmYear": 1988,
+   "opened": 2010,
+   "performances": 69,
+   "qlooId": "92E3A1C8-CE5C-473A-A85C-C995DE24A2BB",
+   "affinity": 0.778988859937139,
+   "popularity": 0.9879479038424156
+  },
+  {
+   "show": "Xanadu",
+   "film": "Xanadu",
+   "filmYear": 1980,
+   "opened": 2007,
+   "performances": 513,
+   "qlooId": "F852DCC0-2903-4392-ADD2-C782CCE4BFB7",
+   "affinity": 0.7935448831397189,
+   "popularity": 0.9237780513618005
+  },
+  {
+   "show": "Young Frankenstein",
+   "film": "Young Frankenstein",
+   "filmYear": 1974,
+   "opened": 2007,
+   "performances": 485,
+   "qlooId": "8FC48855-D363-42CB-A2ED-E6FA35E429CE",
+   "affinity": 0.7315975500761975,
+   "popularity": 0.9799779692865936
+  }
+ ]
+}

@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #090304;
+  --curtain: #4a060b;
+  --panel: #ffffff08;
+  --panel-2: #ffffff0f;
+  --line: #ffffff17;
+  --ink: #fbf7f6;
+  --muted: #b9a5a5;
+  --accent: #ff4d4f;
+  --accent-soft: #ff4d4f22;
+  --glow: #ffb36b;
+  --strong: #6ee7a8;
+  --middle: #ffc46b;
+  --weak: #ff6b6b;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-curtain: var(--curtain);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-glow: var(--glow);
+  --color-strong: var(--strong);
+  --color-middle: var(--middle);
+  --color-weak: var(--weak);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-tight);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* Velvet curtain: a red wash from the top with soft vertical folds. */
+.curtain {
+  background:
+    radial-gradient(70% 60% at 50% -10%, #8a0f17 0%, transparent 70%),
+    repeating-linear-gradient(90deg, #00000000 0 46px, #0000002e 46px 92px),
+    linear-gradient(180deg, var(--curtain) 0%, var(--bg) 85%);
+}
+
+/* A warm stage light hitting the headline. */
+.spot {
+  background: radial-gradient(circle, #ffb36b55 0%, #ff4d4f22 35%, transparent 70%);
+  filter: blur(10px);
+}
+
+.label {
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+@media print {
+  body { background: #fff; color: #111; }
+  .no-print { display: none !important; }
+}
+
+.curtain-top {
+  background: radial-gradient(60% 40rem at 50% -14rem, #6d0b12aa 0%, transparent 70%);
+}
+
+.font-display {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
