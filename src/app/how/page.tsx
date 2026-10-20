@@ -27,8 +27,8 @@ export default function HowPage() {
   return (
     <main className="curtain-top mx-auto max-w-6xl px-5 pb-16 pt-32">
       <p className="label text-accent">How it works</p>
-      <h1 className="mt-4 max-w-5xl font-display text-6xl sm:text-8xl">An agent with an audience behind it.</h1>
-      <p className="mt-8 max-w-3xl text-xl leading-relaxed text-muted">
+      <h1 className="mt-4 max-w-5xl font-display text-5xl sm:text-8xl">An agent with an audience behind it.</h1>
+      <p className="mt-8 max-w-3xl text-lg leading-relaxed text-muted sm:text-xl">
         A language model on its own can only guess which film would make a hit musical. Overture gives it Qloo&apos;s taste data, a score
         tested on {STATS.n} real shows, and strict rules about what it can claim.
       </p>

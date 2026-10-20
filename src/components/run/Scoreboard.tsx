@@ -16,13 +16,13 @@ export function Scoreboard({ rows, pickId }: { rows: ScoreRow[]; pickId?: string
     >
       <ol>
         {rows.map((r, i) => {
-          const size = Math.max(1.4, 3.4 - i * 0.28);
+          const size = Math.max(1.3, 3.2 - i * 0.28);
           return (
             <li key={r.film.id} className="group grid grid-cols-[2.5rem_1fr] gap-x-4 border-t border-line py-5 sm:grid-cols-[2.5rem_1fr_16rem]">
               <span className="pt-1 font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <div className="flex flex-wrap items-baseline gap-x-3">
-                  <span className="font-display" style={{ fontSize: `${size}rem` }}>
+                  <span className="break-words font-display" style={{ fontSize: `clamp(1.3rem, ${size * 0.62}rem + 1.2vw, ${size}rem)` }}>
                     {r.film.name}
                   </span>
                   {r.film.year && <span className="font-mono text-xs text-muted">{r.film.year}</span>}

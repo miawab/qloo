@@ -111,10 +111,10 @@ export default function ProofPage() {
   return (
     <main className="curtain-top mx-auto max-w-6xl px-5 pb-16 pt-32">
       <p className="label text-accent">The proof</p>
-      <h1 className="mt-4 max-w-5xl font-display text-6xl sm:text-8xl">
+      <h1 className="mt-4 max-w-5xl font-display text-5xl sm:text-8xl">
         Films musical fans love made longer-running musicals.
       </h1>
-      <p className="mt-8 max-w-3xl text-xl leading-relaxed text-muted">
+      <p className="mt-8 max-w-3xl text-lg leading-relaxed text-muted sm:text-xl">
         Before building Overture we checked whether its core score means anything. We took every Broadway musical adapted from a film
         that opened between 1985 and 2023, asked Qloo how much musical-theatre fans love each source film, and compared that with how
         long the original production ran.
@@ -141,8 +141,10 @@ export default function ProofPage() {
             <span>Original Broadway performances (log scale)</span>
             <span>Each dot is one show. Hover for its name.</span>
           </div>
-          <div className="mt-4">
-            <Scatter />
+          <div className="-mx-6 mt-4 overflow-x-auto px-6 sm:mx-0 sm:px-0">
+            <div className="min-w-[640px]">
+              <Scatter />
+            </div>
           </div>
           <p className="mt-2 text-right font-mono text-xs uppercase text-muted">Qloo score of the source film among musical fans &rarr;</p>
         </div>

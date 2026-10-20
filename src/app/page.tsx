@@ -11,12 +11,12 @@ export default async function Home() {
     <main>
       <section className="curtain relative overflow-hidden">
         <div className="spot pointer-events-none absolute -top-24 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2" />
-        <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-36">
+        <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-28 sm:pt-36">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_22rem]">
             <div>
               <p className="label text-accent">A greenlight agent for theatre producers</p>
-              <h1 className="mt-6 font-display text-7xl sm:text-8xl">Greenlight the right musical.</h1>
-              <p className="mt-8 max-w-2xl text-xl leading-relaxed text-muted">
+              <h1 className="mt-6 font-display text-6xl sm:text-8xl">Greenlight the right musical.</h1>
+              <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
                 A Broadway musical is a multi-million-dollar bet, and the source film is usually picked on gut feel. Overture checks how
                 much musical-theatre fans already love each film, then plans the audience, tour, talent shortlist and marketing, with
                 evidence behind every call.
@@ -60,7 +60,7 @@ export default async function Home() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="label text-accent">The proof</p>
-            <h2 className="mt-4 max-w-3xl font-display text-5xl sm:text-6xl">
+            <h2 className="mt-4 max-w-3xl font-display text-4xl sm:text-6xl">
               Tested on {STATS.n} Broadway musicals adapted from films.
             </h2>
           </div>
@@ -73,7 +73,7 @@ export default async function Home() {
             [`${Math.round(strong.longRunShare * 100)}%`, `of top-third shows passed 500 performances, against ${Math.round(weak.longRunShare * 100)}% of the bottom third`],
           ].map(([big, small]) => (
             <div key={small} className="bg-bg p-8">
-              <p className="font-display text-7xl">{big}</p>
+              <p className="font-display text-6xl sm:text-7xl">{big}</p>
               <p className="mt-3 text-lg leading-relaxed text-muted">{small}</p>
             </div>
           ))}

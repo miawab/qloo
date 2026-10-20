@@ -20,11 +20,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-6">
             <Link href="/" className="flex items-center gap-2.5">
               <span className="h-2.5 w-2.5 rounded-full bg-accent shadow-[0_0_14px_4px_#ff4d4f88]" />
-              <span className="text-lg font-semibold tracking-[0.28em]">OVERTURE</span>
+              <span className="text-base font-semibold tracking-[0.22em] sm:text-lg sm:tracking-[0.28em]">OVERTURE</span>
             </Link>
-            <div className="label flex gap-7 text-muted">
+            <div className="label flex gap-4 text-muted sm:gap-7">
               <Link href="/proof" className="hover:text-ink">Proof</Link>
-              <Link href="/how" className="hover:text-ink">How it works</Link>
+              <Link href="/how" className="hover:text-ink">
+                How<span className="hidden sm:inline"> it works</span>
+              </Link>
               <a href="https://github.com/miawab/qloo" className="hover:text-ink">Code</a>
             </div>
           </nav>

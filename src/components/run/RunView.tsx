@@ -45,7 +45,7 @@ export function RunView() {
     <main>
       <section className="curtain relative overflow-hidden">
         <div className="spot pointer-events-none absolute -top-32 right-[10%] h-[30rem] w-[30rem]" />
-        <div className="relative mx-auto max-w-7xl px-5 pb-12 pt-32">
+        <div className="relative mx-auto max-w-7xl px-5 pb-12 pt-24 sm:pt-32">
           <div className="no-print flex flex-wrap items-center justify-between gap-3 font-mono text-xs uppercase text-muted">
             <span>{replayId ? "Saved run" : "Live run"}{s.id ? ` / ${s.id}` : ""}</span>
             {s.id && s.status !== "running" && (
@@ -57,7 +57,7 @@ export function RunView() {
           {pick ? (
             <>
               <p className="mt-8 font-mono text-xs uppercase text-accent">The agent recommends</p>
-              <h1 className="mt-3 font-display text-6xl sm:text-8xl lg:text-9xl">{pick.film.name}</h1>
+              <h1 className="mt-3 break-words font-display text-5xl sm:text-8xl lg:text-9xl">{pick.film.name}</h1>
               <div className="mt-8 grid max-w-4xl grid-cols-2 gap-px bg-line sm:grid-cols-4">
                 {[
                   [pick.band.label, "audience fit", BAND_TEXT[pick.band.key]],
@@ -77,7 +77,7 @@ export function RunView() {
               <p className="mt-8 font-mono text-xs uppercase text-accent">
                 {s.status === "error" ? "The run stopped" : "Places, please"}
               </p>
-              <h1 className="mt-3 font-display text-6xl sm:text-8xl">
+              <h1 className="mt-3 font-display text-5xl sm:text-8xl">
                 {s.status === "error" ? "Something went wrong" : "The agent is reading your brief"}
               </h1>
             </>
