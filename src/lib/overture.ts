@@ -70,6 +70,8 @@ async function stageTags(film: Film, onCall?: OnCall) {
 // Qloo ranks the candidates for the musical-fan panel used in the back-test.
 // Scores stay comparable across calls because the panel never changes.
 export async function scoreFilms(films: Film[], onCall?: OnCall): Promise<Score[]> {
+  // A film in the fan panel would be scored against itself.
+  films = films.filter((f) => !panelIds.includes(f.id));
   const out: Score[] = [];
   for (let i = 0; i < films.length; i += 10) {
     const batch = films.slice(i, i + 10);

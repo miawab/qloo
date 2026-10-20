@@ -124,6 +124,7 @@ How to read the score: it is Qloo's affinity of the film among fans of ${PANEL.m
 In a back-test on ${STATS.n} Broadway musicals adapted from films (1985 to 2023), this score correlated with the original run length (Spearman ${STATS.rho.toFixed(2)}; fame alone ${STATS.fameRho.toFixed(2)}).
 Bands: ${BANDS.map((b) => `${b.label}: median run ${b.medianRun} performances, ${Math.round(b.longRunShare * 100)}% ran 500+`).join("; ")}.
 The score is evidence about audience fit, not a forecast of one show's result: book, score, cast, budget and timing matter too. Say so in the risks.
+Films in the fan panel (${PANEL.map((p) => p.name).join(", ")}) cannot be scored, because the score is measured against them. If the producer lists one, say it was left out and why.
 If a scored film has alreadyOnStage tags, a stage version probably exists: its score may be inflated and the rights may be taken. Say so, and prefer a film without that flag when scores are close.
 Qloo describes groups of people, never individuals.
 
