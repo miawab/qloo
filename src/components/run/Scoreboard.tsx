@@ -18,7 +18,7 @@ export function Scoreboard({ rows, pickId }: { rows: ScoreRow[]; pickId?: string
         {rows.map((r, i) => {
           const size = Math.max(1.4, 3.4 - i * 0.28);
           return (
-            <li key={r.film.id} className="group grid grid-cols-[2.5rem_1fr] gap-x-3 border-t border-line py-4 sm:grid-cols-[2.5rem_1fr_15rem]">
+            <li key={r.film.id} className="group grid grid-cols-[2.5rem_1fr] gap-x-4 border-t border-line py-5 sm:grid-cols-[2.5rem_1fr_16rem]">
               <span className="pt-1 font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <div className="flex flex-wrap items-baseline gap-x-3">
@@ -28,23 +28,23 @@ export function Scoreboard({ rows, pickId }: { rows: ScoreRow[]; pickId?: string
                   {r.film.year && <span className="font-mono text-xs text-muted">{r.film.year}</span>}
                   {r.film.id === pickId && <span className="tag">Pick</span>}
                 </div>
-                <p className="mt-2 text-xs text-muted">
-                  Closest past cases: {r.comparables.map((c) => `${c.show} (${c.performances})`).join(", ")}
+                <p className="mt-2 text-base text-muted">
+                  Scores like {r.comparables.slice(0, 2).map((c) => `${c.show.replace(/ the Musical$/, "")} (${c.performances.toLocaleString("en-US")} perfs)`).join(" and ")}
                 </p>
                 {r.alreadyOnStage.length > 0 && (
-                  <p className="mt-1 text-xs text-middle">
+                  <p className="mt-2 text-base text-middle">
                     Qloo links this film to {r.alreadyOnStage.join(", ").toLowerCase()}: a stage version may exist and can lift the score.
                   </p>
                 )}
               </div>
               <div className="col-start-2 mt-3 sm:col-start-3 sm:mt-0 sm:text-right">
                 <p className={`font-mono text-xs uppercase ${BAND_TEXT[r.band.key]}`}>{r.band.label}</p>
-                <p className="mt-1 text-2xl font-semibold tabular-nums">beats {r.percentile}%</p>
+                <p className="mt-1 text-3xl font-semibold tabular-nums">beats {r.percentile}%</p>
                 <div className="mt-2 h-1 bg-line">
                   <div className={`h-full ${BAND_BG[r.band.key]}`} style={{ width: `${Math.max(3, r.percentile)}%` }} />
                 </div>
-                <p className="mt-2 font-mono text-[11px] text-muted">
-                  band median {r.band.medianRun} perfs, {Math.round(r.band.longRunShare * 100)}% ran 500+
+                <p className="mt-2 text-sm text-muted">
+                  Past shows in this band: median {r.band.medianRun} performances
                 </p>
               </div>
             </li>

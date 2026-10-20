@@ -67,7 +67,7 @@ export function RunView() {
                 ].map(([big, small, cls]) => (
                   <div key={small} className="bg-bg/80 p-5">
                     <p className={`text-2xl font-semibold ${cls}`}>{big}</p>
-                    <p className="mt-1 font-mono text-[11px] uppercase text-muted">{small}</p>
+                    <p className="mt-1 font-mono text-xs uppercase text-muted">{small}</p>
                   </div>
                 ))}
               </div>
@@ -82,8 +82,8 @@ export function RunView() {
               </h1>
             </>
           )}
-          {brief && <p className="mt-6 max-w-3xl text-sm text-muted">Brief: {brief}</p>}
-          {s.status === "error" && <p className="mt-6 max-w-3xl border border-weak/50 p-4 text-sm text-weak">{s.error}</p>}
+          {brief && <p className="mt-6 max-w-3xl text-base text-muted">Brief: {brief}</p>}
+          {s.status === "error" && <p className="mt-6 max-w-3xl border border-weak/50 p-4 text-base text-weak">{s.error}</p>}
         </div>
       </section>
 

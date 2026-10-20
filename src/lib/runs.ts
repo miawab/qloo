@@ -29,7 +29,13 @@ export async function listSeedRuns() {
     const files = (await readdir(SEED_DIR)).filter((f) => f.endsWith(".json"));
     return Promise.all(files.map(async (f) => {
       const run: SavedRun = JSON.parse(await readFile(path.join(SEED_DIR, f), "utf8"));
-      return { id: run.id, brief: run.brief };
+      const scored = run.events.find((x) => x.e.type === "result" && x.e.tool === "score_films")?.e;
+      const rows = (scored && "data" in scored ? scored.data : []) as {
+        film: { name: string; year?: number };
+        percentile: number;
+        band: { key: string; label: string; medianRun: number };
+      }[];
+      return { id: run.id, brief: run.brief, top: rows.slice(0, 4) };
     }));
   } catch {
     return [];

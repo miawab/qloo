@@ -22,13 +22,13 @@ export function Frame({
   return (
     <section id={id} className={`plot scroll-mt-24 ${className}`}>
       <div className="ruler" />
-      <div className="p-6 sm:p-8">
+      <div className="p-6 sm:p-10">
         <div className="flex items-baseline gap-4">
           {index && <span className="font-mono text-xs text-accent">{index}</span>}
           <h3 className="font-display text-3xl sm:text-4xl">{title}</h3>
         </div>
-        {note && <p className="mt-2 max-w-2xl text-sm text-muted">{note}</p>}
-        <div className="mt-6">{children}</div>
+        {note && <p className="mt-3 max-w-2xl text-lg text-muted">{note}</p>}
+        <div className="mt-8">{children}</div>
       </div>
     </section>
   );
@@ -46,7 +46,7 @@ const AGE_LABEL: Record<string, string> = {
 function Lean({ label, value }: { label: string; value: number }) {
   const w = Math.min(50, Math.abs(value) * 50);
   return (
-    <div className="grid grid-cols-[5.5rem_1fr_3.5rem] items-center gap-3 text-sm">
+    <div className="grid grid-cols-[5.5rem_1fr_3.5rem] items-center gap-3 text-base">
       <span className="font-mono text-xs uppercase text-muted">{label}</span>
       <div className="relative h-2">
         <div className="absolute inset-y-0 left-1/2 w-px bg-muted/50" />
@@ -68,7 +68,7 @@ function Chips({ items, hot }: { items: string[]; hot?: boolean }) {
   return (
     <div className="mt-2 flex flex-wrap gap-1.5">
       {items.map((t) => (
-        <span key={t} className={`border px-2.5 py-1 text-xs ${hot ? "border-accent/60 text-ink" : "border-line text-muted"}`}>
+        <span key={t} className={`border px-3 py-1.5 text-sm ${hot ? "border-accent/60 text-ink" : "border-line text-muted"}`}>
           {t}
         </span>
       ))}
@@ -112,7 +112,7 @@ export function TourPanel({ t }: { t: NonNullable<RunState["tour"]> }) {
         {t.markets.map((m, i) => (
           <li key={m.name} className="flex items-baseline gap-3 border-t border-line pt-2">
             <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
-            <span>{m.name}</span>
+            <span className="text-lg">{m.name}</span>
           </li>
         ))}
       </ol>
@@ -127,8 +127,8 @@ function NameList({ label, items }: { label: string; items: Ranked[] }) {
       <p className="font-mono text-xs uppercase text-muted">{label}</p>
       <ul className="mt-3">
         {items.map((x) => (
-          <li key={x.id} className="flex items-baseline justify-between gap-3 border-t border-line py-2">
-            <span>{x.name}</span>
+          <li key={x.id} className="flex items-baseline justify-between gap-3 border-t border-line py-2.5">
+            <span className="text-lg">{x.name}</span>
             <span className="font-mono text-xs tabular-nums text-muted">{x.affinity.toFixed(2)}</span>
           </li>
         ))}
@@ -175,13 +175,13 @@ export function MemoPanel({ m }: { m: Memo }) {
           </button>
         </div>
         <h2 className="mt-6 max-w-4xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{m.headline}</h2>
-        <p className="mt-4 max-w-3xl text-lg text-muted">{m.recommendation}</p>
+        <p className="mt-5 max-w-3xl text-xl leading-relaxed text-muted">{m.recommendation}</p>
         <ol className="mt-8 grid gap-px bg-line sm:grid-cols-2">
           {m.reasons.map((r, i) => (
-            <li key={i} className="bg-bg p-5">
+            <li key={i} className="bg-bg p-6">
               <span className="font-mono text-xs text-accent">R{i + 1}</span>
-              <p className="mt-2 font-medium">{r.claim}</p>
-              <p className="mt-2 text-sm text-muted">{r.evidence}</p>
+              <p className="mt-2 text-lg font-medium leading-snug">{r.claim}</p>
+              <p className="mt-2 text-base leading-relaxed text-muted">{r.evidence}</p>
             </li>
           ))}
         </ol>
@@ -189,14 +189,14 @@ export function MemoPanel({ m }: { m: Memo }) {
           {([["Audience", m.audience], ["Tour", m.tour], ["Creative", m.creative], ["Marketing", m.marketing]] as const).map(([k, v]) => (
             <div key={k} className="border-t border-line pt-3">
               <p className="font-mono text-xs uppercase text-accent">{k}</p>
-              <p className="mt-2 text-sm leading-relaxed">{v}</p>
+              <p className="mt-2 text-lg leading-relaxed">{v}</p>
             </div>
           ))}
         </div>
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           <div className="border-t border-line pt-3">
             <p className="font-mono text-xs uppercase text-accent">Risks</p>
-            <ul className="mt-2 space-y-2 text-sm">
+            <ul className="mt-2 space-y-2 text-lg leading-relaxed">
               {m.risks.map((r, i) => (
                 <li key={i}>{r}</li>
               ))}
@@ -204,7 +204,7 @@ export function MemoPanel({ m }: { m: Memo }) {
           </div>
           <div className="border-t border-line pt-3">
             <p className="font-mono text-xs uppercase text-accent">Next steps</p>
-            <ul className="mt-2 space-y-2 text-sm">
+            <ul className="mt-2 space-y-2 text-lg leading-relaxed">
               {m.nextSteps.map((r, i) => (
                 <li key={i}>{r}</li>
               ))}
@@ -227,7 +227,7 @@ const TOOL_LABEL: Record<string, string> = {
 
 function CallLine({ c }: { c: QlooCall }) {
   return (
-    <li className="flex justify-between gap-2 font-mono text-[11px] text-muted">
+    <li className="flex justify-between gap-2 font-mono text-xs text-muted">
       <span className="truncate">
         {c.tool.replace("qloo_", "")} <span className={c.status === "ok" ? "text-strong" : "text-middle"}>{c.status}</span>
       </span>
@@ -245,7 +245,7 @@ export function CueSheet({ s }: { s: RunState }) {
       <div className="p-5">
         <div className="flex items-baseline justify-between">
           <span className="tag">Cue sheet</span>
-          <span className="font-mono text-[11px] text-muted">{total} Qloo calls</span>
+          <span className="font-mono text-xs text-muted">{total} Qloo calls</span>
         </div>
         <ol className="mt-5 space-y-4">
           {s.steps.map((st, i) => (

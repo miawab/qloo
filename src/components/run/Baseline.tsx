@@ -27,8 +27,8 @@ export function Baseline({ rows }: { rows: ScoreRow[] }) {
           Ask the AI alone
         </button>
       )}
-      {state.status === "loading" && <p className="mt-5 text-sm text-muted">Asking the model...</p>}
-      {state.status === "error" && <p className="mt-5 text-sm text-weak">The model did not answer. Try again later.</p>}
+      {state.status === "loading" && <p className="mt-5 text-base text-muted">Asking the model...</p>}
+      {state.status === "error" && <p className="mt-5 text-base text-weak">The model did not answer. Try again later.</p>}
       {state.status === "done" && state.ranking && (
         <div className="grid gap-8 sm:grid-cols-2">
           <div>
@@ -38,11 +38,11 @@ export function Baseline({ rows }: { rows: ScoreRow[] }) {
                 <li key={r.film.id} className="flex gap-3">
                   <span className="w-5 text-right text-muted">{i + 1}</span>
                   <span>{r.film.name}</span>
-                  <span className="ml-auto text-sm text-muted">beats {r.percentile}%</span>
+                  <span className="ml-auto text-base text-muted">beats {r.percentile}%</span>
                 </li>
               ))}
             </ol>
-            <p className="mt-3 text-xs text-muted">Grounded in measured audience affinity and checked against 58 past shows.</p>
+            <p className="mt-3 text-sm text-muted">Grounded in measured audience affinity and checked against 58 past shows.</p>
           </div>
           <div>
             <p className="font-mono text-xs uppercase text-muted">{state.model} alone</p>
@@ -52,12 +52,12 @@ export function Baseline({ rows }: { rows: ScoreRow[] }) {
                   <span className="w-5 text-right text-muted">{i + 1}</span>
                   <span>
                     {p.film}
-                    <span className="block text-xs text-muted">{p.reason}</span>
+                    <span className="block text-base text-muted">{p.reason}</span>
                   </span>
                 </li>
               ))}
             </ol>
-            <p className="mt-3 text-xs text-muted">Opinion from training data. No numbers to check it against.</p>
+            <p className="mt-3 text-sm text-muted">Opinion from training data. No numbers to check it against.</p>
           </div>
         </div>
       )}
