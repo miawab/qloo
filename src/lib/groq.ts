@@ -13,11 +13,11 @@ export function geminiDown(err: unknown) {
   return [401, 402, 403, 429].includes(status) || /RESOURCE_EXHAUSTED|prepayment|API key not valid/i.test(String(e.message));
 }
 
-// The free plan allows 8,000 tokens a minute, so long tool results are cut down before they're sent.
-const MAX_RESULT_CHARS = 2500;
-const clip = (v: unknown) => {
+// The free plan allows 8,000 tokens a minute, so tool results are cut down before they're sent:
+// the newest ones a little, older ones (already acted on) more.
+const clip = (v: unknown, max: number) => {
   const s = JSON.stringify(v);
-  return s.length > MAX_RESULT_CHARS ? s.slice(0, MAX_RESULT_CHARS) + ' …"(cut short)"' : s;
+  return s.length > max ? s.slice(0, max) + ' …"(cut short)"' : s;
 };
 
 type Msg =
@@ -49,7 +49,8 @@ function toMessages(system: string, contents: Content[]): Msg[] {
       });
     } else {
       const replies = parts.filter((p) => p.functionResponse);
-      replies.forEach((p, j) => out.push({ role: "tool", tool_call_id: lastIds[j] ?? `call_${i}_${j}`, content: clip(p.functionResponse!.response) }));
+      const max = i >= contents.length - 2 ? 2500 : 1000;
+      replies.forEach((p, j) => out.push({ role: "tool", tool_call_id: lastIds[j] ?? `call_${i}_${j}`, content: clip(p.functionResponse!.response, max) }));
       const text = parts.map((p) => p.text ?? "").join("").trim();
       if (text) out.push({ role: "user", content: text });
     }
@@ -57,29 +58,39 @@ function toMessages(system: string, contents: Content[]): Msg[] {
   return out;
 }
 
+// The free plan's 8,000-tokens-a-minute limit is per model, so when one is busy the next open model takes the turn,
+// and only when all of them are busy does it wait (the run route allows 5 minutes).
+const MODELS = [GROQ_MODEL, "openai/gpt-oss-20b", "qwen/qwen3.8-27b"].filter((m, i, a) => a.indexOf(m) === i);
+
 async function chat(body: Record<string, unknown>) {
-  // A per-minute limit says how long to wait; wait a few times (the run route allows 5 minutes) before giving up.
-  for (let wait = 0; ; wait++) {
-    const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.GROQ_API_KEY}` },
-      body: JSON.stringify({ model: GROQ_MODEL, temperature: 0.2, max_completion_tokens: 2048, ...body }),
-      signal: AbortSignal.timeout(90_000),
-    });
-    if (r.ok) return r.json();
-    const after = Number(r.headers.get("retry-after"));
-    if (r.status === 429 && after && after <= 60 && wait < 4) {
-      await new Promise((res) => setTimeout(res, (after + 1) * 1000));
-      continue;
+  for (let round = 0; round < 4; round++) {
+    let wait = 60;
+    for (const model of MODELS) {
+      const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.GROQ_API_KEY}` },
+        body: JSON.stringify({ model, temperature: 0.2, max_completion_tokens: 2048, ...body }),
+        signal: AbortSignal.timeout(90_000),
+      });
+      if (r.ok) return r.json();
+      const text = await r.text();
+      // A garbled tool call ("Parsing failed") is a one-off: the next model tries the same turn.
+      if (r.status === 400 && /failed_generation|Parsing failed/i.test(text)) continue;
+      if (r.status !== 429 && r.status !== 413) throw new Error(`Backup model (Groq) ${r.status}: ${text.slice(0, 160)}`);
+      const after = Number(r.headers.get("retry-after")) || Number(text.match(/try again in ([\d.]+)s/)?.[1]) || 20;
+      wait = Math.min(wait, after);
     }
-    throw new Error(`Backup model (Groq) ${r.status}: ${(await r.text()).slice(0, 160)}`);
+    await new Promise((res) => setTimeout(res, (Math.min(wait, 60) + 1) * 1000));
   }
+  throw new Error("The backup model is busy right now. Try again in a minute, or open a saved run.");
 }
 
 // One agent turn on Groq, returned in Gemini's shape so the loop in agent.ts doesn't change.
-export async function groqTurn(system: string, contents: Content[], tools: FunctionDeclaration[]) {
+// `force` names a tool the model must call this turn.
+export async function groqTurn(system: string, contents: Content[], tools: FunctionDeclaration[], force?: string) {
   const data = await chat({
     messages: toMessages(system, contents),
+    ...(force && { tool_choice: { type: "function", function: { name: force } } }),
     tools: tools.map((t) => ({ type: "function", function: { name: t.name, description: t.description, parameters: t.parametersJsonSchema } })),
   });
   const m = data.choices?.[0]?.message ?? {};

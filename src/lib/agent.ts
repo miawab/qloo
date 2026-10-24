@@ -175,6 +175,11 @@ export async function runAgent(brief: string, emit: Emit) {
 
   const contents: Content[] = [{ role: "user", parts: [{ text: brief }] }];
 
+  let nudged = 0;
+  let force: string | undefined;
+  // The memo's audience, tour, creative and marketing sections each need their tool's data first.
+  const research = ["audience_profile", "tour_markets", "creative_team", "marketing_partners"];
+  const called = new Set<string>();
   for (let turn = 0; turn < MAX_TURNS; turn++) {
     let parts: Part[] = [];
     let calls: { id?: string; name?: string; args?: Record<string, unknown> }[] = [];
@@ -193,13 +198,27 @@ export async function runAgent(brief: string, emit: Emit) {
         emit({ type: "model", model: GROQ_MODEL });
       }
     }
-    if (backup) ({ parts, functionCalls: calls } = await groqTurn(SYSTEM, contents, tools));
+    if (backup) ({ parts, functionCalls: calls } = await groqTurn(SYSTEM, contents, tools, force));
+    force = undefined;
     contents.push({ role: "model", parts });
 
     const text = parts.map((p) => p.text ?? "").join("").trim();
     if (text) emit({ type: "thought", text });
 
-    if (!calls.length) break;
+    // Sometimes the model writes the memo as plain text, or tries to finish before the research is done:
+    // point it at the next missing step (on Groq, insist on that tool), then the memo.
+    const missing = research.filter((t) => !called.has(t));
+    const early = calls.some((c) => c.name === "write_memo") && missing.length > 0 && called.has("score_films");
+    if (!calls.length || early) {
+      if (nudged++ >= 6) break;
+      if (early) contents.pop(); // drop the premature memo call
+      force = missing[0] ?? "write_memo";
+      contents.push({
+        role: "user",
+        parts: [{ text: missing.length ? `Before the memo, call ${missing.join(", ")} for the film you pick.` : "Now call write_memo with the memo. Don't write it as text." }],
+      });
+      continue;
+    }
 
     const replies: Part[] = [];
     for (const call of calls) {
@@ -211,6 +230,7 @@ export async function runAgent(brief: string, emit: Emit) {
         return;
       }
       emit({ type: "step", tool: name, args });
+      called.add(name);
       let response: Record<string, unknown>;
       try {
         const data = await handlers[name](args);
