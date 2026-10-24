@@ -11,6 +11,7 @@ import {
   type Film,
 } from "./overture";
 import type { QlooCall } from "./qloo";
+import { GROQ_MODEL, geminiDown, groqOn, groqTurn } from "./groq";
 
 export const MODEL = process.env.GEMINI_MODEL ?? "gemini-flash-latest";
 const MAX_TURNS = 12;
@@ -35,6 +36,7 @@ export type AgentEvent =
   | { type: "result"; tool: string; data: unknown }
   | { type: "memo"; memo: Memo }
   | { type: "error"; message: string }
+  | { type: "model"; model: string }
   | { type: "done" };
 
 const tools: FunctionDeclaration[] = [
@@ -138,8 +140,11 @@ type Emit = (e: AgentEvent) => void;
 
 export async function runAgent(brief: string, emit: Emit) {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("GEMINI_API_KEY is not set");
-  const ai = new GoogleGenAI({ apiKey });
+  if (!apiKey && !groqOn()) throw new Error("GEMINI_API_KEY is not set");
+  const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
+  // Gemini first; if it can't answer (out of credits, quota used up), the rest of the run uses the backup model.
+  let backup = !ai;
+  if (backup) emit({ type: "model", model: GROQ_MODEL });
   const films = new Map<string, Film>();
   const onCall = (call: QlooCall) => emit({ type: "qloo", call });
 
@@ -171,18 +176,29 @@ export async function runAgent(brief: string, emit: Emit) {
   const contents: Content[] = [{ role: "user", parts: [{ text: brief }] }];
 
   for (let turn = 0; turn < MAX_TURNS; turn++) {
-    const res = await ai.models.generateContent({
-      model: MODEL,
-      contents,
-      config: { systemInstruction: SYSTEM, tools: [{ functionDeclarations: tools }], temperature: 0.2 },
-    });
-    const parts = res.candidates?.[0]?.content?.parts ?? [];
+    let parts: Part[] = [];
+    let calls: { id?: string; name?: string; args?: Record<string, unknown> }[] = [];
+    if (!backup) {
+      try {
+        const res = await ai!.models.generateContent({
+          model: MODEL,
+          contents,
+          config: { systemInstruction: SYSTEM, tools: [{ functionDeclarations: tools }], temperature: 0.2 },
+        });
+        parts = res.candidates?.[0]?.content?.parts ?? [];
+        calls = res.functionCalls ?? [];
+      } catch (err) {
+        if (!groqOn() || !geminiDown(err)) throw err;
+        backup = true;
+        emit({ type: "model", model: GROQ_MODEL });
+      }
+    }
+    if (backup) ({ parts, functionCalls: calls } = await groqTurn(SYSTEM, contents, tools));
     contents.push({ role: "model", parts });
 
     const text = parts.map((p) => p.text ?? "").join("").trim();
     if (text) emit({ type: "thought", text });
 
-    const calls = res.functionCalls ?? [];
     if (!calls.length) break;
 
     const replies: Part[] = [];

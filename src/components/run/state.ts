@@ -65,6 +65,8 @@ function reduce(s: RunState, a: Action): RunState {
       if (filmId) next.pickId = filmId;
       return next;
     }
+    case "model":
+      return { ...s, thoughts: [...s.thoughts, `Gemini is unavailable right now, so a backup model (${e.model.split("/").pop()} on Groq) is answering this run.`] };
     case "memo":
       return { ...s, memo: e.memo };
     case "error":

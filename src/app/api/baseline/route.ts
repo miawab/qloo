@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { MODEL } from "@/lib/agent";
+import { GROQ_MODEL, geminiDown, groqJson, groqOn } from "@/lib/groq";
 import { DATA_DIR } from "@/lib/paths";
 
 export const runtime = "nodejs";
@@ -19,12 +20,38 @@ export async function POST(req: Request) {
   } catch {}
 
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) return Response.json({ error: "GEMINI_API_KEY is not set" }, { status: 500 });
+  if (!apiKey && !groqOn()) return Response.json({ error: "GEMINI_API_KEY is not set" }, { status: 500 });
+  const question = `A producer is choosing which film to adapt into a Broadway musical. Rank these films from best to worst bet, using only your own judgement: ${films.join("; ")}. Give each a one-sentence reason.`;
 
+  // Gemini first; the backup model answers if Gemini can't (out of credits, quota used up).
+  let model = MODEL;
+  let text: string;
+  try {
+    if (!apiKey) throw Object.assign(new Error("no Gemini key"), { status: 401 });
+    text = await gemini(apiKey, question);
+  } catch (err) {
+    if (!groqOn() || !geminiDown(err)) return Response.json({ error: "The model is unavailable right now." }, { status: 502 });
+    model = GROQ_MODEL;
+    text = await groqJson(`${question}\nReply with JSON only: {"ranking": [{"film": "...", "reason": "..."}]}`).catch(() => "");
+    try {
+      text = JSON.stringify(JSON.parse(text).ranking ?? []);
+    } catch {}
+  }
+  try {
+    const body = { model, ranking: JSON.parse(text || "[]") };
+    await mkdir(dir, { recursive: true });
+    await writeFile(file, JSON.stringify(body));
+    return Response.json(body);
+  } catch {
+    return Response.json({ error: "The model did not return a ranking." }, { status: 502 });
+  }
+}
+
+async function gemini(apiKey: string, question: string) {
   const ai = new GoogleGenAI({ apiKey });
   const res = await ai.models.generateContent({
     model: MODEL,
-    contents: `A producer is choosing which film to adapt into a Broadway musical. Rank these films from best to worst bet, using only your own judgement: ${films.join("; ")}. Give each a one-sentence reason.`,
+    contents: question,
     config: {
       temperature: 0.2,
       responseMimeType: "application/json",
@@ -38,12 +65,5 @@ export async function POST(req: Request) {
       },
     },
   });
-  try {
-    const body = { model: MODEL, ranking: JSON.parse(res.text ?? "[]") };
-    await mkdir(dir, { recursive: true });
-    await writeFile(file, JSON.stringify(body));
-    return Response.json(body);
-  } catch {
-    return Response.json({ error: "The model did not return a ranking." }, { status: 502 });
-  }
+  return res.text ?? "[]";
 }
